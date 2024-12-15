@@ -6,7 +6,7 @@ This is a basic project to cover all the key concepts in python.
 ~ It also gives the summary of the data and visualizes your financial data with graphs and gives an overview of your budget for the month.
 
 𝐅𝐄𝐀𝐓𝐔𝐑𝐄𝐒
-~ Add income and expense entries with descriptions and categories.
+~ Add income and expense entries with descriptions and categories. 
 ~ View a summary of total income, total expenses, and remaining budget.
 ~ Visualize the income and expense distribution using pie and bar charts.
 ~ Store data persistently in a JSON file.

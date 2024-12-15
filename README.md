@@ -17,5 +17,5 @@ This is a basic project to cover all the key concepts in python.
 To set up this project on your local machine,
  Clone this repository:
    ```bash
-  >> git clone
-  >>https://github.com/Anjaninimmakayala8/Budget_Tracker.git
+ 
+  https://github.com/Anjaninimmakayala8/Budget_Tracker.git

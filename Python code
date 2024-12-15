@@ -1,0 +1,86 @@
+import json
+from datetime import datetime
+
+data = {
+    'income': [],
+    'expenses': []
+}
+
+file_name = "budget_data.json"
+
+def load_data():
+    try:
+        with open(file_name, "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {'income': [], 'expenses': []}
+
+
+def save_data():
+    with open(file_name, "w") as file:
+        json.dump(data, file)
+
+
+def add_income(amount, description):
+    income_entry = {
+        'amount': amount,
+        'description': description,
+        'date': str(datetime.now())
+    }
+    data['income'].append(income_entry)
+    save_data()
+
+
+def add_expense(amount, category):
+    expense_entry = {
+        'amount': amount,
+        'category': category,
+        'date': str(datetime.now())
+    }
+    data['expenses'].append(expense_entry)
+    save_data()
+
+
+def view_summary():
+    total_income = sum(item['amount'] for item in data['income'])
+    total_expenses = sum(item['amount'] for item in data['expenses'])
+    remaining_budget = total_income - total_expenses
+
+    print(f"\n--- Monthly Budget Summary ---")
+    print(f"Total Income: ${total_income}")
+    print(f"Total Expenses: ${total_expenses}")
+    print(f"Remaining Budget: ${remaining_budget}")
+    print(f"-----------------------------")
+
+
+def main():
+    global data
+    data = load_data()
+
+    while True:
+        print("\n--- Budget Tracker ---")
+        print("1. Add Income")
+        print("2. Add Expense")
+        print("3. View Summary")
+        print("4. Exit")
+        choice = input("Select an option: ")
+
+        if choice == "1":
+            amount = float(input("Enter income amount: $"))
+            description = input("Enter income description: ")
+            add_income(amount, description)
+        elif choice == "2":
+            amount = float(input("Enter expense amount: $"))
+            category = input("Enter expense category (e.g., Food, Rent): ")
+            add_expense(amount, category)
+        elif choice == "3":
+            view_summary()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+
+if __name__ == "__main__":
+    main()

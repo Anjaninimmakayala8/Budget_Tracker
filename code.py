@@ -1,13 +1,18 @@
 import json
 from datetime import datetime
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+# Data structure to store income/expense data
 data = {
     'income': [],
     'expenses': []
 }
 
+# File to save/load data
 file_name = "budget_data.json"
 
+# Load data from file
 def load_data():
     try:
         with open(file_name, "r") as file:
@@ -15,12 +20,12 @@ def load_data():
     except FileNotFoundError:
         return {'income': [], 'expenses': []}
 
-
+# Save data to file
 def save_data():
     with open(file_name, "w") as file:
         json.dump(data, file)
 
-
+# Add income
 def add_income(amount, description):
     income_entry = {
         'amount': amount,
@@ -30,7 +35,7 @@ def add_income(amount, description):
     data['income'].append(income_entry)
     save_data()
 
-
+# Add expense
 def add_expense(amount, category):
     expense_entry = {
         'amount': amount,
@@ -40,7 +45,7 @@ def add_expense(amount, category):
     data['expenses'].append(expense_entry)
     save_data()
 
-
+# View summary
 def view_summary():
     total_income = sum(item['amount'] for item in data['income'])
     total_expenses = sum(item['amount'] for item in data['expenses'])
@@ -52,7 +57,39 @@ def view_summary():
     print(f"Remaining Budget: ${remaining_budget}")
     print(f"-----------------------------")
 
+# Visualize Income vs Expenses
+def plot_income_vs_expenses():
+    total_income = sum(item['amount'] for item in data['income'])
+    total_expenses = sum(item['amount'] for item in data['expenses'])
 
+    labels = ['Income', 'Expenses']
+    amounts = [total_income, total_expenses]
+    colors = ['green', 'red']
+
+    plt.figure(figsize=(6, 6))
+    plt.pie(amounts, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+    plt.title("Income vs Expenses")
+    plt.show()
+
+# Visualize Expense Categories
+def plot_expense_categories():
+    categories = [item['category'] for item in data['expenses']]
+    if not categories:
+        print("No expenses to show.")
+        return
+
+    category_counts = {category: categories.count(category) for category in set(categories)}
+    labels = list(category_counts.keys())
+    values = list(category_counts.values())
+
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=values, y=labels, palette="muted")
+    plt.xlabel("Number of Transactions")
+    plt.ylabel("Expense Categories")
+    plt.title("Expenses by Category")
+    plt.show()
+
+# Main function
 def main():
     global data
     data = load_data()
@@ -62,7 +99,9 @@ def main():
         print("1. Add Income")
         print("2. Add Expense")
         print("3. View Summary")
-        print("4. Exit")
+        print("4. Visualize Income vs Expenses")
+        print("5. Visualize Expense Categories")
+        print("6. Exit")
         choice = input("Select an option: ")
 
         if choice == "1":
@@ -76,11 +115,14 @@ def main():
         elif choice == "3":
             view_summary()
         elif choice == "4":
+            plot_income_vs_expenses()
+        elif choice == "5":
+            plot_expense_categories()
+        elif choice == "6":
             print("Goodbye!")
             break
         else:
             print("Invalid option. Please try again.")
-
 
 if __name__ == "__main__":
     main()

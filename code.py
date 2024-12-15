@@ -3,7 +3,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Data structure to store income/expense data
+# Data structure to store income/expense data 
 data = {
     'income': [],
     'expenses': []
